@@ -7,7 +7,6 @@ import CheckboxWithLabel from './CheckboxWithLabel';
 function App() {
   return (
     <div className="App">
-      <body>
         <img src={logo} className="App-logo" alt="logo" />
         <p>Demostración de Herramientas de Test.</p>
         Periódicos:
@@ -22,7 +21,6 @@ function App() {
         </Link>
         <br />
         <CheckboxWithLabel labelOn="Encendido" labelOff="Apagado" />
-      </body>
     </div>
   );
 }

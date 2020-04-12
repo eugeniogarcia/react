@@ -1,34 +1,49 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Comprueba que Link cambie cuando se pasae el ratonpor encima 1`] = `
-<a
-  className="normal"
-  href="http://www.facebook.com"
+exports[`Testing basic component rendering mount 1`] = `ReactWrapper {}`;
+
+exports[`Testing basic component rendering mount 2`] = `ReactWrapper {}`;
+
+exports[`Testing basic component rendering mount 3`] = `ReactWrapper {}`;
+
+exports[`Testing basic component rendering renderer.create 1`] = `
+<div
+  id="zona"
   onMouseEnter={[Function]}
   onMouseLeave={[Function]}
 >
+  El estado es normal
+  <br />
   Facebook
-</a>
+</div>
 `;
 
-exports[`Comprueba que Link cambie cuando se pasae el ratonpor encima 2`] = `
-<a
-  className="hovered"
-  href="http://www.facebook.com"
+exports[`Testing basic component rendering renderer.create 2`] = `
+<div
+  id="zona"
   onMouseEnter={[Function]}
   onMouseLeave={[Function]}
 >
+  El estado es hovered
+  <br />
   Facebook
-</a>
+</div>
 `;
 
-exports[`Comprueba que Link cambie cuando se pasae el ratonpor encima 3`] = `
-<a
-  className="normal"
-  href="http://www.facebook.com"
+exports[`Testing basic component rendering renderer.create 3`] = `
+<div
+  id="zona"
   onMouseEnter={[Function]}
   onMouseLeave={[Function]}
 >
+  El estado es normal
+  <br />
   Facebook
-</a>
+</div>
 `;
+
+exports[`Testing basic component rendering shallow 1`] = `ShallowWrapper {}`;
+
+exports[`Testing basic component rendering shallow 2`] = `ShallowWrapper {}`;
+
+exports[`Testing basic component rendering shallow 3`] = `ShallowWrapper {}`;

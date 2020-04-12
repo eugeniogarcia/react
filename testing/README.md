@@ -21,7 +21,7 @@ global.render = render;
 global.mount = mount;
 ```
 
-Añadimos en el package.json la entrada pensando en los m�dulos css:
+Añadimos en el package.json la entrada pensando en los módulos css:
 
 ```js
 "jest": {
@@ -39,7 +39,52 @@ npm install --save-dev identity-obj-proxy
 
 # Creando Tests
 
-## Testing basic component rendering
+## Testing basic component rendering (Snapshot)
+
+Con esta técnica hacemos __regression testing__. Comprobamos que el layout no haya cambiado. La primera vez que se ejecuta el test se guardara un snapshot, se almacena en el directorio `__snapshots__`. En subsiguientes ejecuciones lo que hace la API es comparar con el snapshot previo, y determinar si algo ha cambiado o no.
+
+Para comparar con un snapshot tenemos que __generar el layout__. Hay varias técnicas:
+
+- __shallow__. Incluido con el módulo enzyme. Hace un rendering del componente pero sin incluir sus children. En el layout se incluirán los componentes children, pero sin "explotar", sin redentizar, tal y como los incluimos con el componente padre.
+
+```js
+const checkbox = shallow(<CheckboxWithLabel labelOn="On" labelOff="Off" />);
+
+expect(checkbox).toMatchSnapshot();
+```
+
+- __renderer.create__. Se hace el rendering completo del componente, incluyendo sus children
+
+```js
+const component = renderer.create(<Link page="http://www.facebook.com">Facebook</Link>);
+let tree = component.toJSON();
+expect(tree).toMatchSnapshot();
+```
+
+Podemos interactuar con el rendering, y comprobar como resulta después del cambio:
+
+```js
+// manually trigger the callback
+tree.onMouseEnter();
+
+tree = component.toJSON();
+expect(tree).toMatchSnapshot();
+```
+
+- __mount__. Incluido con el módulo enzyme.  Hace un rendering completo del componente:
+
+```js
+const comp = mount(<Link nombre="Eugenio" apellido="Garcia" page="http://www.facebook.com">Facebook</Link>);
+
+expect(comp).toMatchSnapshot();
+
+// manually trigger the callback
+comp.find('[id="zona"]').simulate('mouseenter');
+```
+
+### Más información
+
+Alguna información de detalle. No aportará mucho sobre lo anterior pero para que quede todo documentado. Ejemplo de un test:
 
 ```js
 import React from 'react';
@@ -52,7 +97,7 @@ it('renders correctly', () => {
 });
 ```
 
-The first time this test is run, Jest creates a snapshot file that looks like this
+El snapshot que se generará la primera vez que se ejecute el test:
 
 ```yaml
 exports[`renders correctly 1`] = `
@@ -67,27 +112,33 @@ exports[`renders correctly 1`] = `
 `;
 ```
 
-The snapshot artifact should be committed alongside code changes, and reviewed as part of your code review process. Jest uses pretty-format to make snapshots human-readable during code review. On subsequent test runs Jest will compare the rendered output with the previous snapshot. If they match, the test will pass. If they don't match, either the test runner found a bug in your code (in this case, it's <Link> component) that should be fixed, or the implementation has changed and the snapshot needs to be updated.
+La idea por lo tanto es que los snapshots se incluyan como parte del fuente. Son, por decirlo de alguna forma, un assert que comprueba que no se haya roto nada de la presentación. Los snapshots son legibles, de modo que cuando un caso de prueba no se supere podamos echar un vistazo al snapshot y comprobar si efectivamente el problema esta con el snapshot - que se ha quedado obsoleto -, o en el componente - que algo se ha roto. Si estuviera en el snapshot, lo borramos y en la siguiente ejecución se creará uno nuevo.
 
-Otros ejemplos con shallow:
+### Shallow vs Normal rendering
 
 
 ```js
-test('render a label', () => {
-    const wrapper = shallow(<Label>Hello Jest!</Label>);
-    expect(wrapper).toMatchSnapshot();
-});
-
-test('render a small label', () => {
-    const wrapper = shallow(<Label small>Hello Jest!</Label>);
-    expect(wrapper).toMatchSnapshot();
-});
-
-test('render a grayish label', () => {
-    const wrapper = shallow(<Label light>Hello Jest!</Label>);
-    expect(wrapper).toMatchSnapshot();
-});
+const ButtonWithIcon = ({icon, children}) => (<button><Icon icon={icon} />{children}</button>);
 ```
+
+- shallow
+
+```html
+<button>
+    <Icon icon="coffee" />
+    Hello Jest!
+</button>
+```
+
+- normal
+
+```html
+<button>
+    <i class="icon icon_coffee"></i>
+    Hello Jest!
+</button>
+```
+
 
 ## Testing props
 
@@ -95,17 +146,13 @@ Comparando con un valor constante:
 
 ```js
 test('render a document title', () => {
-    const wrapper = shallow(
-        <DocumentTitle title="Events" />
-    );
+    const wrapper = shallow(<DocumentTitle title="Events" />);
     expect(wrapper.prop('title')).toEqual('Events');
 });
 
 test('render a document title and a parent title', () => {
-    const wrapper = shallow(
-        <DocumentTitle title="Events" parent="Event Radar" />
-    );
-    expect(wrapper.prop('title')).toEqual('Events � Event Radar');
+    const wrapper = shallow(<DocumentTitle title="Events" parent="Event Radar" />);
+    expect(wrapper.prop('title')).toEqual('Events - Event Radar');
 });
 ```
 
@@ -113,9 +160,7 @@ Comparando con una regex:
 
 ```js
 test('render a popover with a random ID', () => {
-    const wrapper = shallow(
-        <Popover>Hello Jest!</Popover>
-    );
+    const wrapper = shallow(<Popover>Hello Jest!</Popover>);
     expect(wrapper.prop('id')).toMatch(/Popover\d+/);
 });
 ```
@@ -212,7 +257,7 @@ jest.mock('save-to-storage', () => (
 ));
 ```
 
-- La implementaci�n del mock retorna dos m�todos:
+- La implementación del mock retorna dos métodos:
 
 ```js
   SaveToStorage: jest.fn().mockImplementation(() => ({
@@ -221,7 +266,7 @@ jest.mock('save-to-storage', () => (
   }))
 ```
 
-- Estos dos m�todos est�n mockeados:
+- Estos dos métodos están mockeados:
 
 ```js
 const mockTryGetValue = jest.fn(() => false);
