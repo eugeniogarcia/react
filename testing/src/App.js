@@ -3,10 +3,22 @@ import logo from './logo.svg';
 import './App.css';
 import Link from './Link';
 import CheckboxWithLabel from './CheckboxWithLabel';
+import Boton from './Boton'
 
-function App() {
-  return (
-    <div className="App">
+export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.gestionaResp = this.gestionaResp.bind(this);
+  }
+  
+  gestionaResp(event) {
+    const val = event.mensaje;
+    console.log("otro "+val);
+  }
+
+  render() {
+    return (
+      <div className="App">
         <img src={logo} className="App-logo" alt="logo" />
         <p>Demostración de Herramientas de Test.</p>
         Periódicos:
@@ -20,9 +32,15 @@ function App() {
           <a href="www.sn.at">Salzburger</a>
         </Link>
         <br />
-        <CheckboxWithLabel labelOn="Encendido" labelOff="Apagado" />
-    </div>
-  );
+        <CheckboxWithLabel
+          labelOn="Encendido"
+          labelOff="Apagado"
+        />
+        <Boton
+          mensaje="escriba algo"
+          envio={this.gestionaResp}
+        />
+      </div>
+    );
+  }
 }
-
-export default App;
