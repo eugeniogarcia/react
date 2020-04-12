@@ -10,9 +10,10 @@ function App() {
       <body>
         <img src={logo} className="App-logo" alt="logo" />
         <p>Demostración de Herramientas de Test.</p>
-        Links
+        Periódicos:
         <br />
-        <Link>
+        <br />
+        <Link nombre="Eugenio" apellido="Garcia">
           <a href="www.elpais.com">El Pais</a>
           <br />
           <a href="www.spiegel.de">Der Spiegel</a>
@@ -20,7 +21,7 @@ function App() {
           <a href="www.sn.at">Salzburger</a>
         </Link>
         <br />
-        <CheckboxWithLabel />
+        <CheckboxWithLabel labelOn="Encendido" labelOff="Apagado" />
       </body>
     </div>
   );

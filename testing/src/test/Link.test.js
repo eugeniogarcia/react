@@ -1,6 +1,6 @@
 // Link.react.test.js
 import React from "react";
-import Link from "../src/Link";
+import Link from "../Link";
 import renderer from "react-test-renderer";
 
 test("Comprueba que Link cambie cuando se pasae el ratonpor encima", () => {

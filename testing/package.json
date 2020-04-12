@@ -13,7 +13,6 @@
     "scripts": {
         "start": "react-scripts start",
         "build": "react-scripts build",
-        "test1": "jest",
         "test": "react-scripts test",
         "eject": "react-scripts eject"
     },

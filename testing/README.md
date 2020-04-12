@@ -1,23 +1,9 @@
-# Instalación/Setup
+# InstalaciÃ³n/Setup
 
 Instalamos las herramientas:
 
 ```ps
 npm install --save-dev react-test-renderer enzyme enzyme-adapter-react-16 enzyme-to-json
-```
-
-Actualizamos package.json
-
-```json
-"scripts": {
-  "test": "jest",
-  "test:watch": "jest --watch",
-  "test:coverage": "jest --coverage"
-},
-"jest": {
-  "setupFiles": ["./test/jestsetup.js"],
-  "snapshotSerializers": ["enzyme-to-json/serializer"]
-}
 ```
 
 Creamos un archivo de configuracion para jest en `test/jestsetup.js`
@@ -35,7 +21,7 @@ global.render = render;
 global.mount = mount;
 ```
 
-Añadimos en el package.json la entrada pensando en los módulos css:
+AÃ±adimos en el package.json la entrada pensando en los mï¿½dulos css:
 
 ```js
 "jest": {
@@ -119,7 +105,7 @@ test('render a document title and a parent title', () => {
     const wrapper = shallow(
         <DocumentTitle title="Events" parent="Event Radar" />
     );
-    expect(wrapper.prop('title')).toEqual('Events — Event Radar');
+    expect(wrapper.prop('title')).toEqual('Events ï¿½ Event Radar');
 });
 ```
 
@@ -226,7 +212,7 @@ jest.mock('save-to-storage', () => (
 ));
 ```
 
-- La implementación del mock retorna dos métodos:
+- La implementaciï¿½n del mock retorna dos mï¿½todos:
 
 ```js
   SaveToStorage: jest.fn().mockImplementation(() => ({
@@ -235,7 +221,7 @@ jest.mock('save-to-storage', () => (
   }))
 ```
 
-- Estos dos métodos están mockeados:
+- Estos dos mï¿½todos estï¿½n mockeados:
 
 ```js
 const mockTryGetValue = jest.fn(() => false);
