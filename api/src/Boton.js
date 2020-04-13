@@ -16,8 +16,6 @@ export default class Boton extends React.Component {
 
   enviaMensaje(event) {
     event.preventDefault();
-    //const val = event.target.mensaje.value;
-    //this.props.envio({mensaje:val});
     this.props.envio({ mensaje: this.state.mensaje });
   }
 
@@ -31,7 +29,7 @@ export default class Boton extends React.Component {
           name="mensaje"
           onChange={this.handleTextChange}
         />
-        <input type="submit" value="Envia"/>
+        <input type="submit" value="Envia" />
       </form>
     );
   }

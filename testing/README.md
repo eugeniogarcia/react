@@ -1,5 +1,15 @@
 # Instalación/Setup
 
+Crea el esqueleto para una aplicación React:
+
+```js
+npx create-react-app testing
+
+cd testing
+
+npm start
+```
+
 Instalamos las herramientas:
 
 ```ps

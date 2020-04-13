@@ -13,7 +13,7 @@ export default class App extends React.Component {
   
   gestionaResp(event) {
     const val = event.mensaje;
-    console.log("otro "+val);
+    console.log("valor: "+val);
   }
 
   render() {
