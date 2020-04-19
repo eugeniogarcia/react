@@ -16,10 +16,40 @@ Instalamos redux:
 npm install --save redux
 ```
 
-Instalamos las herramientas de redux
+## Redux Dev Tools
+
+1) Instalar la extensión de Chrome. Instalamos el plugin de chrome para las [redux dev tools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=es). 
+
+2) Instalamos el módulo:
+
+```ps
+npm install --save-dev redux-devtools-extension
+```
+
+3) En el codigo importamos el modulo:
+
+```js
+import devToolsEnhancer from 'remote-redux-devtools';
+
+const store = createStore(rootReducer, devToolsEnhancer());
+```
+
+## Remote Redux Dev Tools
+
+1) Instalar la extensión de Chrome. Instalamos el plugin de chrome para las [redux dev tools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=es). 
+
+2) Instalamos el módulo:
 
 ```ps
 npm install --save-dev remote-redux-devtools
+```
+
+3) En el codigo importamos el modulo:
+
+```js
+import devToolsEnhancer from 'remote-redux-devtools';
+
+const store = createStore(rootReducer, devToolsEnhancer());
 ```
 
 # Redux
