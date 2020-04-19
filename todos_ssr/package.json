@@ -1,0 +1,33 @@
+{
+    "name": "todos_ssr",
+    "version": "0.0.1",
+    "private": true,
+    "devDependencies": {
+        "react-scripts": "^3.4.1",
+        "redux-devtools-extension": "^2.13.8"
+    },
+    "dependencies": {
+        "@babel/preset-env": "^7.9.5",
+        "@babel/preset-react": "^7.9.4",
+        "@babel/register": "^7.9.0",
+        "express": "^4.17.1",
+        "ignore-styles": "^5.0.1",
+        "prop-types": "^15.7.2",
+        "react": "^16.13.1",
+        "react-dom": "^16.13.1",
+        "react-redux": "^7.2.0",
+        "redux": "^4.0.5"
+    },
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "eject": "react-scripts eject",
+        "test": "react-scripts test --env=node"
+    },
+    "browserslist": [
+        ">0.2%",
+        "not dead",
+        "not ie <= 11",
+        "not op_mini all"
+    ]
+}
