@@ -660,3 +660,103 @@ Lo que hacemos es tomar directamente del dom el valor del input, y cuando submit
 ### VisibleTodoList
 
 No tiene nada especial, es similar a `VisibleTodoList.js`.
+
+# Update. Redux Undo
+
+## Instalación
+
+```ps
+npm install --save redux-undo
+```
+
+## Desarrollo
+
+Hay que crear un __wrapper alreadedor del reducer__ para que enriquecerlo con una funcion __`undoable()`__.
+
+```js
+export default tareas;
+```
+
+por:
+
+```js
+const undoableTareas = undoable(tareas);
+export default undoableTareas;
+```
+
+Esto tiene el efecto de alterar el estado. Pasa de ser:
+
+```js
+{
+  tareas:
+    {
+      todos:[
+        {
+          id:0,
+          tarea:'Esto es una prueba',
+          completed: false
+        },
+        {
+                  {
+          id:1,
+          tarea:'Esto es otra prueba',
+          completed: true
+        }
+      ],
+      total: 2
+    }
+    visibilidad: 'SHOW_ALL'
+}
+```
+
+a:
+
+```js
+{
+  tareas:
+    {
+      present[
+        todos:[
+          {
+            id:0,
+            tarea:'Esto es una prueba',
+            completed: false
+          },
+          {
+                    {
+            id:1,
+            tarea:'Esto es otra prueba',
+            completed: true
+          },
+          {
+            id:2,
+            tarea:'Una mas',
+            completed: true
+          }
+        ],
+        total: 3
+      ],
+      past[
+        todos:[
+          {
+            id:0,
+            tarea:'Esto es una prueba',
+            completed: false
+          },
+          {
+                    {
+            id:1,
+            tarea:'Esto es otra prueba',
+            completed: true
+          }
+        ],
+        total: 2
+      ],
+      future[]
+    }
+    visibilidad: 'SHOW_ALL'
+}
+```
+
+Esto es, se añaden las propiedades past, present y future al estado.
+

@@ -9,8 +9,13 @@ const total = ({ etiqueta, numero }) => (
 
 
 const mapStateToProps = (state, ownProps) => ({
+  //Sin undoable
   //numero: state.tareas.todos.length
-  numero: state.tareas.total
+  //numero: state.tareas.total
+
+  //Con undoable
+  numero: state.tareas.present.todos.length
+  //numero: state.tareas.present.total,
 });
 
 export default connect(mapStateToProps)(total);

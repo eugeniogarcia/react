@@ -17,7 +17,10 @@ const getVisibleTodos = (todos, filtro) => {
 }
 
 const mapStateToProps = (state) => ({
-  mistodos: getVisibleTodos(state.tareas.todos, state.visibilidad),
+  //Sin undoable
+  //mistodos: getVisibleTodos(state.tareas.todos, state.visibilidad),
+  //Con undoable
+  mistodos: getVisibleTodos(state.tareas.present.todos, state.visibilidad),
 });
 
 const mapDispatchToProps = dispatch => ({

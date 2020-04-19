@@ -1,3 +1,5 @@
+import undoable from "redux-undo";
+
 const tareas = (estado = {todos:[],total:0}, action) => {
   switch (action.type) {
     case 'ADD_TODO':
@@ -23,4 +25,9 @@ const tareas = (estado = {todos:[],total:0}, action) => {
   }
 };
 
-export default tareas;
+//Sin undoable
+//export default tareas;
+
+//Con undoable
+const undoableTareas = undoable(tareas);
+export default undoableTareas;
