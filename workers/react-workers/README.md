@@ -9,7 +9,11 @@ cd workers
 ```
 
 ```ps
+npm install react-hooks-worker --save-dev
+
 npm install worker-loader --save-dev
+
+npm install -D worker-plugin
 ```
 
 ```ps

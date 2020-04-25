@@ -1,7 +1,4 @@
 const path = require('path');
-
-const WorkerPlugin = require('worker-plugin');
-
 module.exports = {
   mode: "development",
   entry: path.join(__dirname, "src", "index"),
@@ -12,9 +9,19 @@ module.exports = {
     filename: "entrada.js",
     chunkFilename: "[name].js",
   },
-  plugins: [
-    new WorkerPlugin()
-  ],
+  module: {
+    rules: [
+      {
+        test: /\.worker\.js?$/,
+        use: { loader: "worker-loader" },
+      },
+      {
+        loader: "babel-loader",
+        test: /\.worker\.js?$/,
+        exclude: /node_modules/,
+      },
+    ],
+  },
   resolve: {
     extensions: [".json", ".js", ".jsx"],
   },

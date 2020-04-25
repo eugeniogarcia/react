@@ -29,7 +29,6 @@ const App = () => {
     <React.StrictMode>
       <div style={{ marginTop: 60 }}>
         <button type="button" onClick={cambiaModo}>Toggle Mode</button>
-        //Visualiza una cosa u otra dependiendo del modo
         {modo === 'worker' && (
           <div>
             <h3>Trabajando con un web worker</h3>
