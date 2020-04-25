@@ -70,7 +70,7 @@ El __productor de acciones__ es una función que retorna una __acción__. Una ac
 }
 ```
 
-![Modelo Redux](.\imagenes\new-redux-data-flow-opt.png)
+![Modelo Redux](./imagenes/new-redux-data-flow-opt.png)
 
 ## Ejemplo
 
