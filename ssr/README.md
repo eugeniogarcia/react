@@ -44,6 +44,8 @@ ReactDOM.hydrate(
   );
 ```
 
+Es igual a render(), pero es utilizado para hidratar un contenedor cuyo contenido HTML fue renderizado por ReactDOMServer. React tratará de agregar detectores de eventos al marcado existente.
+
 # Crear server.js
 
 Creamos un archivo llamado `server.js` en el directorio server que creamos con la instalación:
