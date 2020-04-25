@@ -8,9 +8,15 @@ npx create-react-app workers
 cd workers
 ```
 
+```ps
+npm install worker-loader --save-dev
+```
 
-npm i --save-dev webpack webpack-cli
+```ps
+npx webpack
+```
 
-npm install -D worker-plugin
-
+```ps
 npx serve
+```
+
