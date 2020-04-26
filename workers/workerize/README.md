@@ -11,6 +11,8 @@ npm install --save workerize
 npx serve
 ```
 
+Podemos ver los resultados en la consola. Para ello abrir las Dev Tools del chrome.
+
 ## Ajustes para usar Workerize
 
 [Workerize]("https://github.com/developit/workerize")
