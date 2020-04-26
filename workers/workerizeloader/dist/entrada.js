@@ -77,7 +77,7 @@
 /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "/dist/";
+/******/ 	__webpack_require__.p = "/eugenio";
 /******/
 /******/
 /******/ 	// Load entry module and return exports
@@ -95,25 +95,28 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var workerize_loader_worker__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! workerize-loader!./worker */ "./node_modules/workerize-loader/dist/index.js!./worker.js");
-/* harmony import */ var workerize_loader_worker__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(workerize_loader_worker__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var workerize_loader_miworker__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! workerize-loader!./miworker */ "./node_modules/workerize-loader/dist/index.js!./miworker.js");
+/* harmony import */ var workerize_loader_miworker__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(workerize_loader_miworker__WEBPACK_IMPORTED_MODULE_0__);
 
 
-console.log("en main.js");
+console.log("En main!");
 
-let instance = workerize_loader_worker__WEBPACK_IMPORTED_MODULE_0___default()()  // new is optional
+let instance = workerize_loader_miworker__WEBPACK_IMPORTED_MODULE_0___default()();  // new is optional
 
 instance.expensive(1000).then(count => {
 	console.log(`Ran ${count} loops`)
 })
 
+instance.expensive(1000).then((count) => {
+  console.log(`Otra prueba con ${count} loops`);
+});
 
 /***/ }),
 
-/***/ "./node_modules/workerize-loader/dist/index.js!./worker.js":
-/*!********************************************************!*\
-  !*** ./node_modules/workerize-loader/dist!./worker.js ***!
-  \********************************************************/
+/***/ "./node_modules/workerize-loader/dist/index.js!./miworker.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/workerize-loader/dist!./miworker.js ***!
+  \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -121,7 +124,7 @@ instance.expensive(1000).then(count => {
 				var addMethods = __webpack_require__(/*! ./node_modules/workerize-loader/dist/rpc-wrapper.js */ "./node_modules/workerize-loader/dist/rpc-wrapper.js")
 				var methods = ["expensive"]
 				module.exports = function() {
-					var w = new Worker(__webpack_require__.p + "cde4dc49f94406873d9d.worker.js", { name: "[hash].worker.js" })
+					var w = new Worker(__webpack_require__.p + "7aebd5b1e46196281e7f.worker.js", { name: "[hash].worker.js" })
 					addMethods(w, methods)
 					
 					return w

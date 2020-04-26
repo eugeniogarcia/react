@@ -77,36 +77,30 @@
 /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "/dist/";
+/******/ 	__webpack_require__.p = "/";
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./node_modules/workerize-loader/dist/rpc-worker-loader.js!./worker.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./node_modules/workerize-loader/dist/rpc-worker-loader.js!./miworker.js");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./node_modules/workerize-loader/dist/rpc-worker-loader.js!./worker.js":
-/*!*****************************************************************************!*\
-  !*** ./node_modules/workerize-loader/dist/rpc-worker-loader.js!./worker.js ***!
-  \*****************************************************************************/
+/***/ "./node_modules/workerize-loader/dist/rpc-worker-loader.js!./miworker.js":
+/*!*******************************************************************************!*\
+  !*** ./node_modules/workerize-loader/dist/rpc-worker-loader.js!./miworker.js ***!
+  \*******************************************************************************/
 /*! exports provided: expensive */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "expensive", function() { return expensive; });
-console.log('in worker')
-
-undefined.onmessage = (e) => {
-    console.log('Recibi un evento', e.data);
-    undefined.postMessage('Hola main, como estas');
-}
+console.log('En worker!')
 
 function expensive(time) {
-    let start = Date.now(),
-        count = 0
-    while (Date.now() - start < time) count++
+    let start = Date.now(), count = 0;
+    while (Date.now() - start < time) count++;
     return count
 }
 addEventListener('message', function (e) {var ref = e.data;var type = ref.type;var method = ref.method;var id = ref.id;var params = ref.params;var f,p;if (type === 'RPC' && method) {if (f = __webpack_exports__[method]) {p = Promise.resolve().then(function () { return f.apply(__webpack_exports__, params); });} else {p = Promise.reject('No such method');}p.then(function (result) {postMessage({type: 'RPC',id: id,result: result});}).catch(function (e) {var error = {message: e};if (e.stack) {error.message = e.message;error.stack = e.stack;error.name = e.name;}postMessage({type: 'RPC',id: id,error: error});});}});postMessage({type: 'RPC',method: 'ready'});
@@ -114,4 +108,4 @@ addEventListener('message', function (e) {var ref = e.data;var type = ref.type;v
 /***/ })
 
 /******/ });
-//# sourceMappingURL=4b9c9d0b79e0990c4481.worker.js.map
+//# sourceMappingURL=1486ea2baa912be752ce.worker.js.map

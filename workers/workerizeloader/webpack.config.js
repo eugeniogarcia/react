@@ -4,10 +4,10 @@ const path = require("path");
 module.exports = {
   mode: "development",
   entry: path.join(__dirname, "main"),
-  watch: true,
+  watch: false,
   output: {
     path: path.join(__dirname, "dist"),
-    publicPath: "/dist/",
+    publicPath: "/eugenio",
     filename: "entrada.js",
     chunkFilename: "[name].js",
   },
@@ -20,13 +20,15 @@ module.exports = {
     ],
   },
   devtool: "source-map",
+  resolve: {
+    extensions: [".json", ".js", ".jsx",".html"],
+  },
   devServer: {
-    contentBase: path.join(__dirname, "/dist/"),
+    contentBase: path.join(__dirname, "/contenido"),
     inline: true,
     host: "localhost",
     port: 5000,
-  },
-  resolve: {
-    extensions: [".json", ".js", ".jsx"],
+    watchContentBase: true,
+    compress: true,
   },
 };

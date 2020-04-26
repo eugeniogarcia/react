@@ -1,9 +1,13 @@
-import worker from 'workerize-loader!./worker'
+import elworker from 'workerize-loader!./miworker'
 
-console.log("en main.js");
+console.log("En main!");
 
-let instance = worker()  // new is optional
+let instance = elworker();  // new is optional
 
 instance.expensive(1000).then(count => {
 	console.log(`Ran ${count} loops`)
 })
+
+instance.expensive(1000).then((count) => {
+  console.log(`Otra prueba con ${count} loops`);
+});
