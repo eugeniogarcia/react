@@ -1,41 +1,40 @@
-# Introducción
+# Workerize
+
+Workerize es una librería que nos permite utilizar los web workers de una forma más sencilla. Hay otra librerá, workerize-loader, que se permite también exponer un modulo "normal" como un web-worker. Es quizás más util que esta, pero esta la podemos utilzar sin necesitar crear un bundle con webpack.
+
+## Casos de Uso
+
+Tenemos dos formas de utilizar workerize. Una es definiendo un string con el código que queremos ejecutar en un thread separado. La otra forma es definiendo una función. La función se ejecutará en el thread como una suerte de runnable.
 
 ## Instalacion
 
+Para instalar la librería:
+
 ```ps
 npm install --save workerize
-
 ```
-
-```ps
-npx serve
-```
-
-Podemos ver los resultados en la consola. Para ello abrir las Dev Tools del chrome.
 
 ## Ajustes para usar Workerize
 
-[Workerize]("https://github.com/developit/workerize")
+Podemos ver todos los detalles de Workerize en su [página web]("https://github.com/developit/workerize"), pero en esencia estos son los pasos que tenemos que dar para utilizarla.
 
-Especifica que el script es un modulo - en index.html:
+En primer lugar tendremos una página web en la que hacemos referencia con nuestro programa - esto no tiene que ver con workerize. En nuestro caso tenemos index.html:
 
 ```html
 <script type="module" src="main.js"></script>
 ```
 
-Importamos el módulo:
+Lo que si hay que destacar es que el javascript es un __modulo__. Como én cualquier módulo, podremos importar la librería:
 
 ```js
 import workerize from "./node_modules/workerize/dist/workerize.m.js";
 ```
 
-Podemos crear un worker pasando un string con código o con una funcion.
+Como hemos explicado antes, podemos crear un worker pasando un string con código o con una funcion.
 
-## Workerize con un String
+### Workerize con un String
 
-Lo que hacemos aquí es crear un nuevo thread, y ejecutar en el javascript que pasamos como argumento de workerize. En este caso el javascript esta exponiendo una funcion, así que podemos pasar argumentos cuando hacemos la llamada.
-
-El worker se puede terminar con `terminate()`.
+Lo que hacemos aquí es crear un nuevo thread, y ejecutar en el javascript que pasamos como argumento de workerize. En este caso el javascript esta exponiendo - __export__ - una funcion:
 
 ```js
 let worker2 = workerize(`
@@ -49,7 +48,7 @@ let worker2 = workerize(`
 `);
 ```
 
-El worker exporta la función add, así que podemos llamarla. Notese que la función retorna un `Promise`:
+La función que hemos exportado pasara a ser un método más de nuestro worker. Notese que la función __retorna un `Promise`__:
 
 ```js
 (async () => {
@@ -57,6 +56,12 @@ El worker exporta la función add, así que podemos llamarla. Notese que la func
     console.log('1 + 2 = ', await worker2.add(1, 2));
 })();
 ```
+
+El worker tiene las mísmas propiedades de cualquier worker:
+
+- podremos subscribiernos a `worker2.onmessage= (e)=>{}`
+- podemos publicar un mensaje con worker2.postmessage('')
+- podemos terminar el worker con `terminate()`
 
 ## Workerize con una funcion
 
@@ -84,3 +89,13 @@ Podemos enviar un mensaje al thread:
 ```js
 worker3.postMessage(3);
 ```
+
+## Probar la aplicación
+
+Para probar la aplicación podemos hacer:
+
+```ps
+npx serve
+```
+
+Veremos los resultados en la consola - `CTRL+ALT+I` Chrome.
