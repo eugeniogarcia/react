@@ -16,7 +16,8 @@ cd workers
 
 ### Webpack
 
-Instalamos webpack:
+
+Instalamos [webpack](../workerizeloader/Webpack.md):
 
 ```ps
 npm install webpack webpack-cli --save-dev

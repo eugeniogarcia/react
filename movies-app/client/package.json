@@ -1,0 +1,42 @@
+{
+    "name": "client",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+        "axios": "^0.18.0",
+        "bootstrap": "^4.3.1",
+        "react": "^16.8.6",
+        "react-dom": "^16.8.6",
+        "react-router-dom": "^5.0.0",
+        "react-scripts": "^3.4.1",
+        "react-table": "^6.10.0",
+        "styled-components": "^4.2.0",
+        "svg-transform-loader": "^2.0.13"
+    },
+    "scripts": {
+        "start": "PORT=8000 react-scripts start",
+        "arr": "react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject",
+        "srv": "webpack-dev-server --open",
+        "obs": "webpack --watch",
+        "wp": "webpack"
+    },
+    "eslintConfig": {
+        "extends": "react-app"
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "devDependencies": {}
+}
