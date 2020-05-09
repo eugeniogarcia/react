@@ -12,20 +12,22 @@ class App extends Component {
     super(props);
     this.state = {
       numfilas: props.filas,
+      posicion: props.posicion
     };
     this.cambioNumfilas = this.cambioNumfilas.bind(this);
   }
 
   static defaultProps = {
     filas: 2,
+    posicion:0
   };
 
   cambioNumfilas(event) {
-    this.setState({ numfilas: event });
+    this.setState(event);
   }
 
   render() {
-    const { numfilas } = this.state;
+    const { numfilas, posicion } = this.state;
 
     return (
       <Router>
@@ -39,6 +41,7 @@ class App extends Component {
                 {...props}
                 actualizaFilas={this.cambioNumfilas}
                 filas={numfilas}
+                posicion={posicion}
               />
             )}
           />

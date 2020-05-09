@@ -1,68 +1,81 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Introducción
 
-## Available Scripts
+Con esta aplicación hemos experimentado como conservar el estado al utilizar react-router. Tenemos por un lado un componente padre, App, que define el Router. 
 
-In the project directory, you can run:
+```js
+    return (
+      <Router>
+        <NavBar />
+        <Switch>
+          <Route path="/movies/list" exact
+            render={(props) => (<MoviesList {...props} actualizaFilas={this.cambioNumfilas} filas={numfilas}/>)} />
+          <Route path="/movies/create" exact component={MoviesInsert} />
+          <Route path="/movies/update/:id" exact component={MoviesUpdate} />
+        </Switch>
+      </Router>
+    );
+```
 
-### `npm start`
+En los componentes que indicamos aquí, bajo `Router`, `NavBar`, `MoviesList`, `MoviesInsert`, y `MoviesUpdate`, cuando tengamos Routes, Links, NavLinks el control estará agrupado bajo este elemento raiz.
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+A la hora de navegar podemos hacerlo de dos formas:
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+- Usando funciones del objeto __window__:
+    - __window.location.href__ = `/movies/update/${this.props.id}`. En este caso navegamos a una ruta concreta. Lo que va a suceder es que la App sera creada de nuevo. El estado del componente App se inicializará de nuevo,  y se navegara a la ruta indicada, de modo que el componente asociado se cargara de nuevo.
+    - __window.location.reload()__. Se refresca la pagina actual. Tiene el mismo efecto en App, hace que se cree de nuevo el componente App, y se navegara al componente correspondiente. Tiene el mismo efecto que si hubieramos refrescado el bavegador
+__En resumen, se construye el componente raiz__
 
-### `npm test`
+- Usando la api de navegación del html5.
+    - __this.props.history.push(`/movies/update/${this.props.id}`)__. Esto hace que la navegación sea dentro del dominio de Router, de modo que el __componente App no se reconstruye, y mantiene el estado__. El componente asociado a la ruta se reconstruye
+    - __this.props.history.go()__. Recarga la página actual. No causa ningún efecto, de echo es tanto como no hacer nada
+__En resumen, NO se construye el componente raiz__, pero se construirá el componente al que hemos navegado
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Pasar parametros a los componentes
 
-### `npm run build`
+A la hora de especificar los componentes en las Route, hemos usado dos opciones:
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Usando una componente estático con `render`. Retorna el jmx a renderizar, y aquí especificamos los props que queremos pasar al componente:
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+```js
+<Route path="/movies/list" exact render={(props) => (<MoviesList {...props} actualizaFilas={this.cambioNumfilas} filas={numfilas}/>)} />
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Especificando directamente el componente con `component`:
 
-### `npm run eject`
+```js
+<Route path="/movies/create" exact component={MoviesInsert} />
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## History
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Para usar ´props.history` usaremos:
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```js
+import { withRouter } from "react-router-dom";
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Hacemos un wrapper con el componente. El componente que usaremos sera el resultado del wrapper:
 
-## Learn More
+```js
+const UpdateMovie=withRouter(UpdateMovie1);
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Y en `UpdateMovie1` ya podemos usar history:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```js
+class UpdateMovie1 extends Component {
+  constructor(props) {
+    super(props);
+    this.updateUser = this.updateUser.bind(this);
+  }
 
-### Code Splitting
+  updateUser = (event) => {
+    event.preventDefault();
+    this.props.history.push(`/movies/update/${this.props.id}`);
+  };
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+  render() {
+    return <Update onClick={this.updateUser}>Actualiza</Update>;
+  }
+}
+```
