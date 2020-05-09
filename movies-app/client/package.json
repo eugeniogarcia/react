@@ -14,14 +14,12 @@
         "svg-transform-loader": "^2.0.13"
     },
     "scripts": {
-        "start": "PORT=8000 react-scripts start",
-        "arr": "react-scripts start",
+        "arr-mac": "PORT=3002 react-scripts start",
+        "arr": "set PORT=3002 && react-scripts start",
+        "arr-lin": "export PORT = 3002 && react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test",
-        "eject": "react-scripts eject",
-        "srv": "webpack-dev-server --open",
-        "obs": "webpack --watch",
-        "wp": "webpack"
+        "eject": "react-scripts eject"
     },
     "eslintConfig": {
         "extends": "react-app"
