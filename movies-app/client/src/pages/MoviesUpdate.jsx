@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withRouter } from "react-router-dom";
 import api from '../api'
 
 import styled from 'styled-components'
@@ -77,7 +78,9 @@ class MoviesUpdate extends Component {
                 rating: '',
                 time: '',
             })
-            window.location.href = `/movies/list`;
+            //Con window.location se recarga el componente, con lo que el estado se reinicia. Con history.push el componente se mantiene
+            //window.location.href = `/movies/list`;
+            this.props.history.push(`/movies/list`);
         })
     }
 
@@ -131,4 +134,4 @@ class MoviesUpdate extends Component {
     }
 }
 
-export default MoviesUpdate
+export default withRouter(MoviesUpdate);
