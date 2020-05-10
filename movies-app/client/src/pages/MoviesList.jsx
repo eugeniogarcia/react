@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { withRouter } from "react-router-dom";
-
 import ReactTable from 'react-table'
 import api from '../api'
 import PropTypes from "prop-types";
@@ -39,10 +38,9 @@ class UpdateMovie1 extends Component {
     return <Update onClick={this.updateUser}>Actualiza</Update>;
   }
 }
+const UpdateMovie=withRouter(UpdateMovie1)
 
-const UpdateMovie=withRouter(UpdateMovie1);
-
-class DeleteMovie1 extends Component {
+class DeleteMovie extends Component {
 
     deleteUser = event => {
         event.preventDefault()
@@ -54,9 +52,6 @@ class DeleteMovie1 extends Component {
         ) {
             api.deleteMovieById(this.props.id);
           if (this.props.seborro) this.props.seborro(this.props.id);
-            //window.location.reload()
-            //this.props.history.push(`/movies/list`);
-            //this.props.history.go();
           }
     }
 
@@ -64,10 +59,9 @@ class DeleteMovie1 extends Component {
         return <Delete onClick={this.deleteUser}>Borra</Delete>
     }
 }
-DeleteMovie1.propTypes = {
+DeleteMovie.propTypes = {
   seborro: PropTypes.func,
 };
-const DeleteMovie = withRouter(DeleteMovie1);
 
 class MoviesList extends Component {
   constructor(props) {
