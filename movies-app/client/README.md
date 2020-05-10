@@ -48,7 +48,25 @@ A la hora de especificar los componentes en las Route, hemos usado dos opciones:
 
 ## History
 
-Para usar ´props.history` usaremos:
+Los componentes que usamos con Router tiene en su props un método history que podemos utilizar para conectarnos a la api del navegador. Por ejemplo en `MoviesUpdate` podemos hacer:
+
+```js
+    handleUpdateMovie = async () => {
+        const { id, name, rating, time } = this.state
+        const arrayTime = time.split('/')
+        const payload = { name, rating, time: arrayTime }
+        await api.updateMovieById(id, payload).then(res => {
+            window.alert(`La película se actualizó correctamente`)
+            this.setState({name: '', rating: '', time: '', })
+
+            this.props.history.push(`/movies/list`);
+        })
+    }
+```
+
+### Componentes que no se usan en un Route
+
+Cuando tenemos un componente que no se usa en una ruta, pero en el que necesitamos interactuar con la api del navegador, podemos usar `withRouter`, incluido en `react-router-dom`. Esto inyectara en props el método history. primero importamos `withRouter`:
 
 ```js
 import { withRouter } from "react-router-dom";
@@ -60,7 +78,7 @@ Hacemos un wrapper con el componente. El componente que usaremos sera el resulta
 const UpdateMovie=withRouter(UpdateMovie1);
 ```
 
-Y en `UpdateMovie1` ya podemos usar history:
+Y en `UpdateMovie` ya podemos usar history:
 
 ```js
 class UpdateMovie1 extends Component {
@@ -79,3 +97,33 @@ class UpdateMovie1 extends Component {
   }
 }
 ```
+
+### Hooks
+
+Con `react-router` se incluyen unos [hooks](https://reacttraining.com/react-router/web/api/Hooks) que nos permitirán utilizar la api de navegación desde un componente functional - stateless:
+
+```js
+ you may use to navigate.import { useHistory } from "react-router-dom";
+
+function HomeButton() {
+  let history = useHistory();
+
+  function handleClick() {
+    history.push("/home");
+  }
+
+  return (
+    <button type="button" onClick={handleClick}>
+      Go home
+    </button>
+  );
+}
+```
+
+Podemos usar otros hooks:
+
+- useHistory
+- useLocation
+- useParams
+- useRouteMatch
+
