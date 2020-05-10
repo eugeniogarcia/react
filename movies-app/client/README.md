@@ -1,5 +1,7 @@
 # Introducción
 
+## Navegacion con `history`
+
 Con esta aplicación hemos experimentado como conservar el estado al utilizar react-router. Tenemos por un lado un componente padre, App, que define el Router. 
 
 ```js
@@ -30,11 +32,11 @@ __En resumen, se construye el componente raiz__
     - __this.props.history.go()__. Recarga la página actual. No causa ningún efecto, de echo es tanto como no hacer nada
 __En resumen, NO se construye el componente raiz__, pero se construirá el componente al que hemos navegado
 
-## Pasar parametros a los componentes
+## Pasar propiedades al componente definido en una Route
 
 A la hora de especificar los componentes en las Route, hemos usado dos opciones:
 
-- Usando una componente estático con `render`. Retorna el jmx a renderizar, y aquí especificamos los props que queremos pasar al componente:
+- Usando una componente estático __con `render`__. Retorna el jmx a renderizar, y aquí especificamos los props que queremos pasar al componente:
 
 ```js
 <Route path="/movies/list" exact render={(props) => (<MoviesList {...props} actualizaFilas={this.cambioNumfilas} filas={numfilas}/>)} />
@@ -127,3 +129,25 @@ Podemos usar otros hooks:
 - useParams
 - useRouteMatch
 
+## Trocear js bundles para mejorar el rendimiento
+
+Para mejorar el [rendimiento](https://medium.com/@addyosmani/progressive-web-apps-with-react-js-part-2-page-load-performance-33b932d97cf2) podemos decirle a webpack que en lugar de generar un bundle con todo el js, que se creen diferentes chunks con el js que se precisa para servir cada una ruta. Podemos lograr esto haciendo que la carga del componente sea asíncrona, y utilizando un import para cargar el componente - el import le indica a Webpack por donde trocear el js.
+
+En nuestro caso por ejemplo
+
+```js
+return (
+<Route path="/movies/create" exact component={MoviesInsert} />
+<Route path="/movies/update/:id" exact
+  /*
+  getComponent={(location, callback) => {
+    import('../pages/MoviesUpdate')
+      .then((x) => callback(null, x));
+  }
+  */
+  getComponent={(location, callback) => {
+      import('../pages')
+      .then(({ MoviesUpdate }) => callback(null, MoviesUpdate));
+    }
+}/>
+```

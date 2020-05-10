@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 import { NavBar } from '../components'
-import { MoviesList, MoviesInsert, MoviesUpdate } from '../pages'
+//import { MoviesList, MoviesInsert, MoviesUpdate } from '../pages'
+import { MoviesList, MoviesInsert } from '../pages'
 import PropTypes from "prop-types";
 
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -46,7 +47,19 @@ class App extends Component {
             )}
           />
           <Route path="/movies/create" exact component={MoviesInsert} />
-          <Route path="/movies/update/:id" exact component={MoviesUpdate} />
+          <Route path="/movies/update/:id" exact
+            //Dos formas equivalentes. Al definir la carga del componente como asincrona webpack puede hacer el split del javascript en dos pedazos. Esta ruta solo se cargara cuando se vaya a utilizar, no será parte de la carga inicial
+            /*
+            getComponent={(location, callback) => {
+              import('../pages/MoviesUpdate')
+                .then((x) => callback(null, x));
+            }
+            */ 
+            getComponent={(location, callback) => {
+                import('../pages')
+                  .then(({ MoviesUpdate }) => callback(null, MoviesUpdate));
+              }
+          }/>
         </Switch>
       </Router>
     );
@@ -58,3 +71,5 @@ MoviesList.propTypes = {
 };
 
 export default App;
+
+//component = { MoviesUpdate }
