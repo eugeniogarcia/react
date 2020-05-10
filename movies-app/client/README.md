@@ -129,7 +129,35 @@ Podemos usar otros hooks:
 - useParams
 - useRouteMatch
 
-## Trocear js bundles para mejorar el rendimiento
+## Trocear js bundles para mejorar el rendimiento 
+
+Podemos usar `Lazy` y `Suspense`:
+
+```js
+const MoviesUpdate = lazy(() => import("../pages/MoviesUpdate"));
+const MoviesInsert = lazy(() => import("../pages/MoviesInsert"));
+```
+
+```js
+  render() {
+    const { numfilas, posicion } = this.state;
+    return (
+      <Suspense fallback={<div>Cargando...</div>}>
+        <Router>
+          <NavBar />
+          <Switch>
+            <Route path="/movies/create" exact component={MoviesInsert} />
+            <Route path="/movies/update/:id" exact component={MoviesUpdate}/>
+          </Switch>
+        </Router>
+      </Suspense>
+    );
+  }
+```
+
+### Obsoleto
+
+Esta era la forma antigua de conseguir el code split:
 
 Para mejorar el [rendimiento](https://medium.com/@addyosmani/progressive-web-apps-with-react-js-part-2-page-load-performance-33b932d97cf2) podemos decirle a webpack que en lugar de generar un bundle con todo el js, que se creen diferentes chunks con el js que se precisa para servir cada una ruta. Podemos lograr esto haciendo que la carga del componente sea asíncrona, y utilizando un import para cargar el componente - el import le indica a Webpack por donde trocear el js.
 
@@ -139,15 +167,15 @@ En nuestro caso por ejemplo
 return (
 <Route path="/movies/create" exact component={MoviesInsert} />
 <Route path="/movies/update/:id" exact
-  /*
   getComponent={(location, callback) => {
     import('../pages/MoviesUpdate')
-      .then((x) => callback(null, x));
+      .then((x) => callback(null, x.default));
   }
-  */
+  /*
   getComponent={(location, callback) => {
       import('../pages')
       .then(({ MoviesUpdate }) => callback(null, MoviesUpdate));
     }
+  */
 }/>
 ```
