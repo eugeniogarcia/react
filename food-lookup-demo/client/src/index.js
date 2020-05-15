@@ -14,4 +14,6 @@ ReactDOM.render(
 );
 
 serviceWorker.unregister();
+//miServiceWorker.desregistra();
+//serviceWorker.register();
 miServiceWorker.registra();

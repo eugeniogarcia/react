@@ -60,7 +60,7 @@ function checkValidServiceWorker(swUrl, config) {
 }
 
 function registerValidSW(swUrl, config) {
-  navigator.serviceWorker.register(swUrl)//,{scope:'/api/'})
+  navigator.serviceWorker.register(swUrl,{scope:'/api/'})
     .then(registration => {
       console.log('Registrando Worker => registrado: ', registration.scope);
       registration.onupdatefound = () => {
