@@ -5,10 +5,13 @@ import "./index.css";
 import "./semantic/dist/semantic.min.css";
 
 import * as serviceWorker from './serviceWorker';
+import * as miServiceWorker from './miServiceWorkerHelper';
+
 
 ReactDOM.render(
   <App />,
   document.getElementById("root") // eslint-disable-line no-undef
 );
 
-serviceWorker.register();
+serviceWorker.unregister();
+miServiceWorker.registra();

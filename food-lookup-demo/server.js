@@ -1,12 +1,15 @@
 const express = require("express");
 const fs = require("fs");
 const sqlite = require("sql.js");
+var cors = require("cors");
 
 const filebuffer = fs.readFileSync("db/usda-nnd.sqlite3");
 
 const db = new sqlite.Database(filebuffer);
 
 const app = express();
+
+app.use(cors())
 
 app.set("port", process.env.PORT || 3001);
 
