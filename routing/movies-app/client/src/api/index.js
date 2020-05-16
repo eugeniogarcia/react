@@ -30,7 +30,8 @@ export const actualiza = async (peticion, payload) => {
     try{
         //window.localStorage.removeItem(baseURL +peticion);
         window.sessionStorage.removeItem(baseURL +peticion);
-        reset();
+        //window.localStorage.removeItem(baseURL +'/movies');
+        window.sessionStorage.removeItem(baseURL + '/movies');
     }
     catch(err){}
 }
@@ -40,7 +41,8 @@ export const borra = async (peticion) => {
     try {
         //window.localStorage.removeItem(baseURL +peticion);
         window.sessionStorage.removeItem(baseURL +peticion);
-        reset();
+        //window.localStorage.removeItem(baseURL +'/movies');
+        window.sessionStorage.removeItem(baseURL + '/movies');
     }
     catch (err) { }
 }
