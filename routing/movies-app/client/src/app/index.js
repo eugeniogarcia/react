@@ -23,7 +23,7 @@ class App extends Component {
   }
 
   static defaultProps = {
-    filas: 2,
+    filas: 4,
     posicion:0
   };
 
@@ -59,7 +59,7 @@ class App extends Component {
   }
 }
 
-MoviesList.propTypes = {
+App.propTypes = {
   numfilas: PropTypes.number,
 };
 

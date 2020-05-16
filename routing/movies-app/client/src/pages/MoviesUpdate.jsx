@@ -83,9 +83,14 @@ class MoviesUpdate extends Component {
         })
     }
 
+    handleCancela = () => {
+        this.props.history.push(`/movies/list`);
+    }
+
     componentDidMount = async () => {
         const { id } = this.state
-        const movie = await api.getMovieById(id)
+        //const movie = await api.getMovieById(id)
+        const movie = await api.busca('/movie/'+id);
 
         this.setState({
             name: movie.data.data.name,
@@ -127,7 +132,7 @@ class MoviesUpdate extends Component {
                 />
 
                 <Button onClick={this.handleUpdateMovie}>Actualiza Película</Button>
-                <CancelButton href={'/movies/list'}>Cancela</CancelButton>
+                <CancelButton onClick={this.handleCancela}>Cancela</CancelButton>
             </Wrapper>
         )
     }

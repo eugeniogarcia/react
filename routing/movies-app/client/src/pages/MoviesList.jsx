@@ -81,6 +81,7 @@ class MoviesList extends Component {
     this.cambioNumfilas = this.cambioNumfilas.bind(this);
     this.borroPeli = this.borroPeli.bind(this);
     this.cambioPosicion = this.cambioPosicion.bind(this);
+
   }
 
   cambioPosicion(event) {
@@ -103,9 +104,17 @@ class MoviesList extends Component {
   componentDidMount = async () => {
     this.setState({ isLoading: true });
 
+    /*
     await api.getAllMovies().then((movies) => {
       this.setState({
         movies: movies.data.data,
+        isLoading: false,
+      });
+    });
+    */
+    api.busca('/movies').then(pelis=>{
+      this.setState({
+        movies: pelis.data.data,
         isLoading: false,
       });
     });

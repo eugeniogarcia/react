@@ -82,6 +82,11 @@ class MoviesInsert extends Component {
         })
     }
 
+
+    handleCancel = () => {
+        this.props.history.push(`/movies/list`);
+    }
+
     render() {
         const { name, rating, time } = this.state
         return (
@@ -115,7 +120,7 @@ class MoviesInsert extends Component {
                 />
 
                 <Button onClick={this.handleIncludeMovie}>Añade Película</Button>
-                <CancelButton href={'/movies/list'}>Cancela</CancelButton>
+                <CancelButton onClick={this.handleCancel}>Cancela</CancelButton>
             </Wrapper>
         )
     }
