@@ -71,6 +71,7 @@ class MoviesInsert extends Component {
 
         await api.insertMovie(payload).then(res => {
             window.alert(`La película se creo correctamante`)
+            api.reset();
             this.setState({
                 name: '',
                 rating: '',
