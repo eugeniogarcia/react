@@ -50,7 +50,9 @@ class DeleteMovie extends Component {
                 `Estas seguro de querer borrar la película ${this.props.id} ?`,
             )
         ) {
-            api.deleteMovieById(this.props.id);
+            //api.deleteMovieById(this.props.id);
+            api.borra('/movie'+this.props.id);
+
           if (this.props.seborro) this.props.seborro(this.props.id);
           }
     }

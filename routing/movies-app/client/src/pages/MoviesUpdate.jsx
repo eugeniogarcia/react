@@ -70,7 +70,20 @@ class MoviesUpdate extends Component {
         const arrayTime = time.split('/')
         const payload = { name, rating, time: arrayTime }
 
+        /*
         await api.updateMovieById(id, payload).then(res => {
+            window.alert(`La película se actualizó correctamente`)
+            this.setState({
+                name: '',
+                rating: '',
+                time: '',
+            })
+            //Con window.location se recarga el componente, con lo que el estado se reinicia. Con history.push el componente se mantiene
+            //window.location.href = `/movies/list`;
+            this.props.history.push(`/movies/list`);
+        })
+        */
+        await api.actualiza('/movie/'+id, payload).then(res => {
             window.alert(`La película se actualizó correctamente`)
             this.setState({
                 name: '',
