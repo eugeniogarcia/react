@@ -1,0 +1,9 @@
+node_modules
+npm-debug.log
+.sonarlint
+.vscode
+build
+dist
+*.md
+.gitignore
+docker

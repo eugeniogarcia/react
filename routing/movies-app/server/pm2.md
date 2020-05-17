@@ -181,3 +181,65 @@ Podemos cambiar de entorno:
 ```ps
 pm2 start process.json --env production
 ```
+
+### Ejemplo
+
+Hacemos
+
+```ps
+pm2 ecosystem
+```
+
+Editamos el archivo `ecosystem.config.js`:
+
+```json
+module.exports = {
+  apps : [{
+  	name : 'apis',
+    script: 'index.js',
+    watch: '.',
+	env: {
+		"PORT": 3000,
+        "NODE_ENV": "development"
+        },
+	env_production: {
+        "PORT": 3001,
+        "NODE_ENV": "production",
+        }
+  }]
+}
+```
+
+Arrancamos el servidor:
+
+```ps
+pm2 start ecosystem.config.js --only apis --env production
+```
+
+Comprobamos que efectivamente el servidor este escuchando en el puerto 3001:
+
+```ps
+curl http://localhost:3001/api/movies
+
+
+StatusCode        : 200
+StatusDescription : OK
+Content           : {"success":true,"data":[{"time":["7"],"_id":"5eaf0eb0c010f72c44863f01","name":"
+                    Erase una vez en el Oeste","rating":7,"createdAt":"2020-05-03T18:34:24.324Z","u
+                    pdatedAt":"2020-05-09T11:58:16.528Z","__v"...
+RawContent        : HTTP/1.1 200 OK
+                    Access-Control-Allow-Origin: *
+                    Connection: keep-alive
+                    Content-Length: 4314
+                    Content-Type: application/json; charset=utf-8
+                    Date: Sun, 17 May 2020 06:18:56 GMT
+                    ETag: W/"10da-gYrAwNb...
+Forms             : {}
+Headers           : {[Access-Control-Allow-Origin, *], [Connection, keep-alive], [Content-Length,
+                    4314], [Content-Type, application/json; charset=utf-8]...}
+Images            : {}
+InputFields       : {}
+Links             : {}
+ParsedHtml        : mshtml.HTMLDocumentClass
+RawContentLength  : 4314
+```

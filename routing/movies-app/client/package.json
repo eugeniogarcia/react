@@ -16,7 +16,7 @@
     "scripts": {
         "arr-mac": "PORT=3002 react-scripts start",
         "arr": "set PORT=3002 && react-scripts start",
-        "arr-lin": "export PORT = 3002 && react-scripts start",
+        "arr-lin": "export PORT=3002 && react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject"
