@@ -1,6 +1,11 @@
 import axios from 'axios'
 
-const baseURL= process.env.BD||'http://localhost:3000/api';
+console.log("NODE_ENV: ", process.env.NODE_ENV);
+console.log("PORT: ", process.env.PORT);
+console.log("REACT_APP_BD: ", process.env.REACT_APP_BD);
+console.log("REACT_APP_BD1: ", process.env.REACT_APP_BD1);
+
+const baseURL = (process.env.REACT_APP_BD || "http://localhost:3000/api").trim();
 
 const api = axios.create({
     baseURL: baseURL,

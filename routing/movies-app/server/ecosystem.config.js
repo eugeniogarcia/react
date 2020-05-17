@@ -1,17 +1,17 @@
 module.exports = {
   apps : [{
-	name : 'apis',
+	  name : 'apis',
     script: 'index.js',
     watch: '.',
-	env: {
-		"PORT": 3000,
-        "NODE_ENV": "development"
-        },
-	env_production: {
-        "PORT": 3001,
-        "NODE_ENV": "production",
-        }
-  }],
+    env: {
+      "PORT": 3000,
+          "NODE_ENV": "development"
+          },
+    env_produccion: {
+          "PORT": 3001,
+          "NODE_ENV": "production",
+          }
+    }],
 
   deploy : {
     production : {

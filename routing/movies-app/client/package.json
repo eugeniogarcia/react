@@ -15,8 +15,10 @@
     },
     "scripts": {
         "arr-mac": "PORT=3002 react-scripts start",
-        "arr": "set PORT=3002 && react-scripts start",
-        "arr-lin": "export PORT=3002 && react-scripts start",
+        "arr": "set REACT_APP_BD=http://localhost:3001/api && set PORT=3002 && react-scripts start",
+        "arr1": "set PORT=3002 && react-scripts start",
+        "arr2": "react-scripts start",
+        "arr-lin": "export REACT_APP_BD && export PORT=3002 && react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject"

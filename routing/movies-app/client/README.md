@@ -23,13 +23,13 @@ En los componentes que indicamos aquí, bajo `Router`, `NavBar`, `MoviesList`, `
 A la hora de navegar podemos hacerlo de dos formas:
 
 - Usando funciones del objeto __window__:
-    - __window.location.href__ = `/movies/update/${this.props.id}`. En este caso navegamos a una ruta concreta. Lo que va a suceder es que la App sera creada de nuevo. El estado del componente App se inicializará de nuevo,  y se navegara a la ruta indicada, de modo que el componente asociado se cargara de nuevo.
-    - __window.location.reload()__. Se refresca la pagina actual. Tiene el mismo efecto en App, hace que se cree de nuevo el componente App, y se navegara al componente correspondiente. Tiene el mismo efecto que si hubieramos refrescado el bavegador
+  - __window.location.href__ = `/movies/update/${this.props.id}`. En este caso navegamos a una ruta concreta. Lo que va a suceder es que la App sera creada de nuevo. El estado del componente App se inicializará de nuevo,  y se navegara a la ruta indicada, de modo que el componente asociado se cargara de nuevo.
+  - __window.location.reload()__. Se refresca la pagina actual. Tiene el mismo efecto en App, hace que se cree de nuevo el componente App, y se navegara al componente correspondiente. Tiene el mismo efecto que si hubieramos refrescado el bavegador
 __En resumen, se construye el componente raiz__
 
 - Usando la api de navegación del html5.
-    - __this.props.history.push(`/movies/update/${this.props.id}`)__. Esto hace que la navegación sea dentro del dominio de Router, de modo que el __componente App no se reconstruye, y mantiene el estado__. El componente asociado a la ruta se reconstruye
-    - __this.props.history.go()__. Recarga la página actual. No causa ningún efecto, de echo es tanto como no hacer nada
+  - __this.props.history.push(`/movies/update/${this.props.id}`)__. Esto hace que la navegación sea dentro del dominio de Router, de modo que el __componente App no se reconstruye, y mantiene el estado__. El componente asociado a la ruta se reconstruye
+  - __this.props.history.go()__. Recarga la página actual. No causa ningún efecto, de echo es tanto como no hacer nada
 __En resumen, NO se construye el componente raiz__, pero se construirá el componente al que hemos navegado
 
 ## Pasar propiedades al componente definido en una Route
@@ -179,3 +179,95 @@ return (
   */
 }/>
 ```
+
+## Variables de entorno
+
+Vamos a explorar las diferentes alternativas para usar variables de entorno en nuestra aplicación react. Para empezar hay que decir que las variables de entorno tienen que tener como prefijo __'REACT_APP_'__. Por ejemplo, en nuestro caso vamos a definir una variable llamada REACT_APP_BD.
+
+Para utilizar la variable en el javascript haremos __'process.env.REACT_APP_BD'__. Por ejemplo:
+
+```js
+const baseURL = (process.env.REACT_APP_BD || "http://localhost:3000/api").trim();
+```
+
+### Opcion 1. Pasar valor en package.json
+
+En el script de arranque pasamos las variables de entorno. Las variables tienen que estar definidas en el contexto del script, en el contexto de ejecución. Un par de consideraciones:
+
+- La variable de entorno tiene que tener el prefijo `REACT_APP_`. Cuanlquier otra variable será filtrada. Una consideración más, la variable PORT, por ejemplo, es utilizada por reac-scripts para exponer la app. Viene a ser la parte de "node". 
+- No basta con que la variable de entorno este definida en el bash, o powershell, o dos, tiene que exportarse para que el script la "vea":
+
+```js
+"arr": "set REACT_APP_BD=http://localhost:3001/api && set PORT=3002 && react-scripts start",
+"arr1": "set PORT=3002 && react-scripts start",
+"arr2": "react-scripts start",
+```
+
+#### Ejemplo
+
+En powershell definimos:
+
+```ps
+$PORT=3002
+$REACT_APP_BD=http://localhost:3002/api
+$REACT_APP_BD1=http://localhost:3002/api
+```
+
+En nuestra app incluimos:
+
+```js
+console.log("NODE_ENV: ", process.env.NODE_ENV);
+console.log("PORT: ", process.env.PORT);
+console.log("REACT_APP_BD: ", process.env.REACT_APP_BD);
+console.log("REACT_APP_BD1: ", process.env.REACT_APP_BD1);
+```
+
+Lo que obtendremos es:
+
+```ps
+NODE_ENV:  development
+index.js:4 PORT:  undefined
+index.js:6 REACT_APP_BD:  http://localhost:3001/api 
+index.js:7 REACT_APP_BD1:  undefined
+index.js:11 baseURL:  http://localhost:3001/api
+```
+
+Podemos observar que:
+
+- PORT aparece como undefined. No tiene el prefijo REACT_APP_, así que se filtra. Eso si la variable de entorno se utilizara para exponer la app
+- REACT_APP_BD1, si bien esta definida, como no se ha exportado al script, no está disponible
+- REACT_APP_BD, está disponible porque tiene el prefijo adecuado, y se ha exportado
+
+### Opcion 2. Usar archivo .env
+
+Creamos un archivo llamado .env y lo colocamos en el raiz. Definimos la variable y su valor:
+
+```txt
+REACT_APP_BD=http://localhost:3001/api
+```
+
+Arrancamos la aplicación normalmente:
+
+```ps
+npm run arr1
+```
+
+En este caso no hemos tenido que exportar la variable, simplemente bsata con que este definida en el archivo .env. El resto de reglas aplican, tiene que tener el prefijo definido. Como en el .env también hemos definido la variable PORT, podríamos hacer:
+
+```ps
+npm run arr2
+```
+
+### Opcion 3. Pasar valor config file
+
+
+
+### Build
+
+Cuando hacemos:
+
+```ps
+npm run build
+```
+
+Las variables con el prefijo REACT_APP_ son sustituidas por su valor, de modo que el js estático que se genera hace referencia al valor disponible para esas variables en el momento de la compilación.

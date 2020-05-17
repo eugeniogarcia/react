@@ -25,7 +25,7 @@ pm2 start index.js --watch
 Podemos también elegir el puerto:
 
 ```ps
-pm2 start index.js --watch --port 3002
+pm2 start index.js --watch --serve -p 3002
 ```
 
 Otros argumentos que podemos usar en la línea de comandos:
@@ -202,7 +202,7 @@ module.exports = {
 		"PORT": 3000,
         "NODE_ENV": "development"
         },
-	env_production: {
+	env_produccion: {
         "PORT": 3001,
         "NODE_ENV": "production",
         }
@@ -213,7 +213,7 @@ module.exports = {
 Arrancamos el servidor:
 
 ```ps
-pm2 start ecosystem.config.js --only apis --env production
+pm2 start ecosystem.config.js --only apis --env produccion
 ```
 
 Comprobamos que efectivamente el servidor este escuchando en el puerto 3001:

@@ -1,0 +1,16 @@
+# pull official base image
+FROM node:14.2.0-alpine3.10
+
+# set working directory
+WORKDIR /app
+
+# add `/app/node_modules/.bin` to $PATH
+ENV PATH /app/node_modules/.bin:$PATH
+ENV REACT_APP_BD 'http://localhost:3000/api'
+ENV PORT 3002
+
+COPY package*.json ./
+RUN npm install
+COPY . ./
+EXPOSE 3002
+CMD [ "npm", "run", "arr-lin" ]
