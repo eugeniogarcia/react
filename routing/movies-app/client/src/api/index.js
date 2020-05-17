@@ -1,9 +1,11 @@
 import axios from 'axios'
+import config from "../config";
 
 console.log("NODE_ENV: ", process.env.NODE_ENV);
 console.log("PORT: ", process.env.PORT);
 console.log("REACT_APP_BD: ", process.env.REACT_APP_BD);
 console.log("REACT_APP_BD1: ", process.env.REACT_APP_BD1);
+console.log("config.api.networkInterface: ", config.api.networkInterface);
 
 const baseURL = (process.env.REACT_APP_BD || "http://localhost:3000/api").trim();
 

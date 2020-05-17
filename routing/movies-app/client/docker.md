@@ -43,3 +43,9 @@ Arrancamos el contenedor de docker para que trabaje con el puerto 3003:
 ```ps
 docker run -it -e REACT_APP_BD='http://localhost:3003/api' -p 8080:3002 app-pelis
 ```
+
+También podemos ejecutarlo detached:
+
+```ps
+docker run -di -e REACT_APP_BD='http://localhost:3003/api' -p 8080:3002 app-pelis
+```
