@@ -6,7 +6,8 @@ WORKDIR /app
 
 # add `/app/node_modules/.bin` to $PATH
 ENV PATH /app/node_modules/.bin:$PATH
-ENV REACT_APP_BD 'http://localhost:3000/api'
+ENV REACT_APP_BD 'http://localhost:3001/api'
+ENV PORT 3002
 
 COPY package*.json ./
 RUN npm install
