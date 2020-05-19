@@ -18,6 +18,12 @@ Con este comando arrancamos la app react:
 docker run -it -p 8080:3002 app-pelis
 ```
 
+O podemos lanzar la imagen detachada
+
+```ps
+docker run -dt -p 8080:3002 app-pelis
+```
+
 ## Ejemplo
 
 Arrancamos el servidor de apis, el servidor node, en el puerto 3003:
