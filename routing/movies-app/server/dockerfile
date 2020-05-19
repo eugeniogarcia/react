@@ -1,0 +1,16 @@
+# pull official base image
+FROM node:14.2.0-alpine3.10
+
+# set working directory
+WORKDIR /app
+
+# add `/app/node_modules/.bin` to $PATH
+ENV PATH /app/node_modules/.bin:$PATH
+ENV PORT 3001
+ENV MONGO_URL mongodb://192.168.1.133:27017
+
+COPY package*.json ./
+RUN npm install
+COPY . ./
+EXPOSE 3001
+CMD [ "node", "./index.js", "" ]
