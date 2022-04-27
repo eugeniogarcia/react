@@ -1,3 +1,5 @@
+const fib = (n) => (n < 2 ? 1 : fib(n - 1) + fib(n - 2));
+
 const ordinal_suffix = (num) => {
   // 1st, 2nd, 3rd, 4th, etc.
   const j = num % 10;
@@ -27,26 +29,21 @@ const btn = document.getElementById("submit-btn");
 const input = document.getElementById("number-input");
 const resultsContainer = document.getElementById("results-container");
 
-const worker = new window.Worker("/src/fib-worker.js");
-
 btn.addEventListener("click", (e) => {
-  errPar.textContent = "";
-  const num = window.Number(input.value);
+    errPar.textContent = '';  //limpia el mensaje de error
+    const num = window.Number(input.value);
 
-  if (num < 2) {
-    errPar.textContent = "Please enter a number greater than 2";
-    return;
-  }
+    if (num < 2) {
+        errPar.textContent = "Please enter a number greater than 2";
+        return;
+    }
 
-  worker.postMessage({ num });
-  worker.onerror = (err) => err;
-  worker.onmessage = (e) => {
-    const { time, fibNum } = e.data;
+    const startTime = new Date().getTime();
+    const sum = fib(num);
+    const time = new Date().getTime() - startTime;
 
-    const resultDiv = document.createElement("div");
-    resultDiv.innerHTML = textCont(num, fibNum, time);
+    const resultDiv = document.createElement("div");  //Crea un elemento y lo añade
+    resultDiv.innerHTML = textCont(num, sum, time);
     resultDiv.className = "result-div";
     resultsContainer.appendChild(resultDiv);
-  };
 });
-

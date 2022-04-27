@@ -14,7 +14,7 @@ function App() {
 
   const runWorker = (num, id) => {
     dispatch({ type: "SET_ERROR", err: "" });
-    const worker = new window.Worker('./fib-worker.js')
+    const worker = new window.Worker('./fib-worker.js') //Creamos el worker. Podrá haber varios en paralelo si se pulsa el boton varias veces
     worker.postMessage({ num });
     worker.onerror = (err) => err;
     worker.onmessage = (e) => {

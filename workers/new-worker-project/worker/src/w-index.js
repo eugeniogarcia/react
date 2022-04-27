@@ -27,6 +27,8 @@ const btn = document.getElementById("submit-btn");
 const input = document.getElementById("number-input");
 const resultsContainer = document.getElementById("results-container");
 
+const worker = new window.Worker("/src/fib-worker.js");  //Crea un worker que se va a re-utilizar en  todos los calculos. Si pulsamos dos veces el boton, enviamos dos mensajes al mismo worker, que se procesaran uno detras de otro. Cada worker es un hilo, asi que si enviamos dos mensajes, el worker procesara el primer mensaje, contestara, y procesara el segundo mensaje
+
 btn.addEventListener("click", (e) => {
   errPar.textContent = "";
   const num = window.Number(input.value);
@@ -36,21 +38,16 @@ btn.addEventListener("click", (e) => {
     return;
   }
 
-  //Creamos un worker con cada click
-  const worker = new window.Worker("/src/fib-worker.js");
-
-  worker.postMessage({ num });
-  worker.onerror = (err) => err;
-  worker.onmessage = (e) => {
+  worker.postMessage({ num });  //Envia un mensaje al worker 
+  worker.onerror = (err) => err; //Se subscribe a la respuesta
+  worker.onmessage = (e) => { //Se subscribe a la respuesta
     const { time, fibNum } = e.data;
 
     const resultDiv = document.createElement("div");
     resultDiv.innerHTML = textCont(num, fibNum, time);
     resultDiv.className = "result-div";
     resultsContainer.appendChild(resultDiv);
-
-    //Matamos el worker
-    worker.terminate()
   };
+  
 });
 
