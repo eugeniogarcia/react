@@ -8,8 +8,8 @@
             "type": "chrome",
             "request": "launch",
             "name": "Launch Chrome against localhost",
-            "url": "http://localhost:3000",
-            "webRoot": "${workspaceFolder}"
+            "url": "https://mbp.local:5000/js13kpwa/index.html",
+            "webRoot": "${workspaceFolder}/workers/new-worker-project"
         }
     ]
 }

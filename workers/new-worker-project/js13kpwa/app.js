@@ -30,18 +30,49 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/js13kpwa/sw.js');
 }
 
+var notificaciones=false;
+
 // Requesting permission for Notifications after clicking on the button
+const buttonStop = document.getElementById('stop');
+buttonStop.addEventListener('click', () => {
+  notificaciones = false;
+  button.disabled = false;
+  buttonStop.disabled = true;
+
+});
+
 const button = document.getElementById('notifications');
 button.addEventListener('click', () => {
-  Notification.requestPermission().then((result) => { //Comprueba si tenermos permisos
-    if (result === 'granted') {
-      randomNotification();
-    }
-  });
+  if (!("Notification" in window)) {
+    alert("This browser does not support desktop notification");
+    return;
+  }
+  if (Notification.permission === "granted") {
+    notificaciones = true;
+    button.disabled = true;
+    buttonStop.disabled = false; 
+    randomNotification();
+    return;
+  }
+  if (Notification.permission !== "denied") {
+    Notification.requestPermission().then(function (permission) {
+      alert("granted");
+      // If the user accepts, let's create a notification
+      if (permission === "granted") {
+        notificaciones = true;
+        button.disabled = true;
+        buttonStop.disabled = false;
+        randomNotification();
+      }
+    });
+  }
+
 });
 
 // Setting up random Notification
 function randomNotification() {
+  if (!notificaciones) return;
+
   const randomItem = Math.floor(Math.random() * games.length);
   const notifTitle = games[randomItem].name;
   const notifBody = `Created by ${games[randomItem].author}.`;
@@ -51,28 +82,30 @@ function randomNotification() {
     icon: notifImg,
   };
   new Notification(notifTitle, options); //Crea una notificación
-  setTimeout(randomNotification, 30000); //Programamos que cada 30 segs se publique una notificación
+  setTimeout(randomNotification, 60000); //Programamos que cada 30 segs se publique una notificación
 }
 
 // Progressive loading images
-const imagesToLoad = document.querySelectorAll('img[data-src]');
-const loadImages = (image) => {
-  image.setAttribute('src', image.getAttribute('data-src'));
-  image.onload = () => {
+const imagesToLoad = document.querySelectorAll('img[data-src]'); //Recuperamos todas las imagenes que tienen un atributo data-src
+
+const loadImages = (image) => { //lambda que procesa una imagen
+  image.setAttribute('src', image.getAttribute('data-src')); //cambia el valor del atrobuto src con el valor del atributo data-src
+  image.onload = () => { //cuando la imagen se ha cargado podemos borrar el atributo data-src
     image.removeAttribute('data-src');
   };
 };
+
 if ('IntersectionObserver' in window) {
-  const observer = new IntersectionObserver((items) => {
+  const observer = new IntersectionObserver((items) => {//Definimos el callback y la opciones de observabilidad. En este caso no hemos especificado ninguna opción de observavilidad, así que se disparará el callback en cuanto alguno de los items observados "aparezca en el viewport"
     items.forEach((item) => {
       if (item.isIntersecting) {
         loadImages(item.target);
-        observer.unobserve(item.target);
+        observer.unobserve(item.target); //dejamos de observar este item
       }
     });
   });
   imagesToLoad.forEach((img) => {
-    observer.observe(img);
+    observer.observe(img);  //Indicamos que queremos observar cada una de las imagenes
   });
 } else {
   imagesToLoad.forEach((img) => {
