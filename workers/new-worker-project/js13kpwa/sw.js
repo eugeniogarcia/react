@@ -39,6 +39,16 @@ self.addEventListener('install', (e) => {
   })());
 });
 
+self.addEventListener('activate', (e) => { //Cuando se activa el worker
+  console.log('[Service Worker] Activate');
+  e.waitUntil(caches.keys().then((keyList) => { //Recupera todas las keys de la cache
+    return Promise.all(keyList.map((key) => { //Con cada key...
+      if (key === cacheName) { return; } //...comprobamos si es la key que usamos ahora, y sino es...
+      return caches.delete(key); //...la borramos
+    }))
+  }));
+});
+
 // Fetching content using Service Worker
 self.addEventListener('fetch', (e) => {
   e.respondWith((async () => {
@@ -53,12 +63,5 @@ self.addEventListener('fetch', (e) => {
   })());
 });
 
-self.addEventListener('activate', (e) => {
-  e.waitUntil(caches.keys().then((keyList) => {
-    return Promise.all(keyList.map((key) => {
-      if (key === cacheName) { return; }
-      return caches.delete(key);
-    }))
-  }));
-});
+
 

@@ -219,9 +219,11 @@ self.addEventListener('fetch', (e) => {
 });
 ```
 
-#### Registering the Service Worker
+#### Lifecycle of a Service Worker
 
-In the app.js file:
+##### Registration
+
+A service worker is basically a JavaScript file. One thing that differentiate a service worker file from a normal JavaScript file, is that __a service worker runs in the background, off the browser’s main UI thread__. Before we can start using service worker, we must register it as a background process. This is the first phase of the lifecycle. Since service workers are not yet supported in all browsers, we must first check to make sure the browser supports service workers. Below is a code we can use to register a service worker:
 
 ```js
 if('serviceWorker' in navigator) {
@@ -229,17 +231,85 @@ if('serviceWorker' in navigator) {
 };
 ```
 
-#### Lifecycle of a Service Worker
+First, we check if the browser supports service workers, that is, if the navigator object has a serviceWorker property. Only when it’s supported would we register the service worker. The `register()` method takes the path to the service worker script and returns a promise.
 
-- Installation. __When registration is complete, the sw.js file is automatically downloaded__, then __installed__, and finally __activated__.
+At the point of registering a service worker, _we can also define the scope of the service worker_. The scope of a service worker determines the pages that the service worker can control. By default, the scope is defined by the location of the service worker script. In addition to accepting the path to the service worker script, the register() method can also accept an optional object, where we can define the scope of the service worker. Here, we define the scope of the service worker to /blog/, which will limit the service worker to only the blog directory.
 
-The service worker does not install until the code inside waitUntil is executed. It returns a promise — this approach is needed because installing may take some time, so we have to wait for it to finish.
+```js
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js', {
+        scope: '/blog/'
+    })
+    .then(function (registration) {
+        console.log('Service worker registered!');
+    })
+    .catch(function (err) {
+        console.log('Registration failed!');
+    })
+}
+```
+
+##### Installation
+
+The fact that a service worker has been successfully registered doesn’t mean it has been installed. That’s where the installation phase of the lifecycle comes into play. __Upon successful registration of the service worker, the script is downloaded and then the browser will attempt to install the service worker__. The service worker __will only be installed in either of these cases__:
+
+- The service worker hasn’t been registered before
+- The service worker script changes (even if it’s by one byte).
+
+__Once a service worker has been installed, an install event is fired__. We can listen for this event and perform some application0-specific tasks. For example, we could cache our application’s static assets at this point:
+
+```js
+// Installing Service Worker
+self.addEventListener('install', (e) => {
+  console.log('[Service Worker] Install');
+  e.waitUntil((async () => {
+    const cache = await caches.open(cacheName);
+    console.log('[Service Worker] Caching all: app shell and content');
+    await cache.addAll(contentToCache);
+  })());
+});
+```
 
 caches is a special CacheStorage object available in the scope of the given Service Worker to enable saving data — saving to web storage won't work, because web storage is synchronous. With Service Workers, we use the Cache API instead.
 
-- Activation. __There is also an activate event__, which is used in the same way as install. This __event is usually used to delete any files that are no longer necessary__ and clean up after the app in general. We don't need to do that in our app, so we'll skip it.
+If the installation was successful, the service worker enters an installed state (though not yet active), during which it waits to take control of the page from the current service worker. It then moves on to the next phase in the lifecycle, which is the activation phase.
 
-- Responding to fetches. We also have a __fetch event__ at our disposal, which fires every time an HTTP request is fired off from our app. This is very useful, as it __allows us to intercept requests and respond to them with custom responses__. Here is a simple usage example:
+##### Activation
+
+A service worker is not immediately activated upon installation. __A service worker will only be active (that is, be activated) in any of these cases__:
+
+- If there is no service worker currently active
+- If the self.skipWaiting() is called in the install event handler of the service worker script
+- If the user refreshes the page
+
+An example of using the skipWaiting() method to activate a service worker can look like below:
+
+```js
+self.addEventListener('install', function (event) {
+    self.skipWaiting();
+
+    event.waitUntil(
+           // static assets caching
+      );
+});
+```
+
+An activate event is fired upon a service worker being active. Like the install event, we could also listen for the activate event and perform some application specific tasks. __There is also an activate event, which is used in the same way as install__. This event __is usually used to delete any files that are no longer necessary__ and clean up after the app in general. We don't need to do that in our app, so we'll skip it.
+
+```js
+self.addEventListener('activate', (e) => { //Cuando se activa el worker
+  e.waitUntil(caches.keys().then((keyList) => { //Recupera todas las keys de la cache
+    return Promise.all(keyList.map((key) => { //Con cada key...
+      if (key === cacheName) { return; } //...comprobamos si es la key que usamos ahora, y sino es...
+      return caches.delete(key); //...la borramos
+    }))
+  }));
+});
+```
+
+##### Fetch
+
+Responding to fetches. We also have a __fetch event__ at our disposal, which fires every time an HTTP request is fired off from our app. This is very useful, as it __allows us to intercept requests and respond to them with custom responses__. Here is a simple usage example:
 
 ```js
 self.addEventListener('fetch', (e) => {
@@ -256,7 +326,13 @@ self.addEventListener('fetch', (e) => {
 });
 ```
 
-- Updates. There is still one point to cover: how do you __upgrade a Service Worker when a new version of the app containing new assets is available?__ The version number in the cache name is key to this:
+##### Idle
+
+If the service worker after being active, does not receive any of the functional events mentioned above, it goes into an idle state. After being idle for some time, the service worker goes into a terminated state. This does not mean the service worker has been uninstalled or unregistered. In fact, the service worker will become idle again as soon as it begins to receive the fuctional events.
+
+##### Updates
+
+There is still one point to cover: how do you __upgrade a Service Worker when a new version of the app containing new assets is available?__ The version number in the cache name is key to this:
 
 ```js
 var cacheName = 'js13kPWA-v1';
@@ -352,6 +428,18 @@ button.addEventListener('click', () => {
 ```
 
 __When the user confirms to receive notifications, the app can then show them__. The result of the user action can be default, granted or denied. The default option is chosen when the user won't make a choice, and the other two are set when the user clicks yes or no respectively.
+
+##### Ejemplo
+
+Veamos con un ejemplo lo que iría sucediendo:
+
+|evento|Accion|Comentario|
+|------|------|------|
+|Primera vez|Registro -> Instala -> Activa|En el momento que se hace el registro, en paralelo se lanza la instalación, esto es, la descarga del worker, y su instalación. Una vez instalado se dispara el evento Instal. Como no hay ningún otro worker activo, se lanza la activación inmediatamente. Una vez activado se lanza el evento Activate|
+|Segunda Vez|Registro|No se instala ni se activa, porque no ha habido cambios en el worker, y lo teníamos activado de la primera ejecución|
+|Se cambia el worker|N/A||
+|Tercera vez|Registro -> Instala|En el momento que se hace el registro, como se ha cambiado el worker, se lanza una petición para descargar la nueva versión del worker. Se dispara el evento Install una vez se ha intalado. Como hay una versión activa del worker, esta se mantiene en ejeución, y __no se activa la nueva versión__. La nueva version se activara si hacemos un refresh de la página, o si cerramos la página, la próxima vez que se abra. En las developer tools podemos ver las dos versiones del Worker|
+|Cuarta vez|Registro -> Activación|La versión que estaba pendiente de activar, se activa. Se lanza el evento Activate|
 
 
 
