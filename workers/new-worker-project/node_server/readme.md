@@ -533,7 +533,6 @@ function clientErrorHandler (err, req, res, next) {
 
 Implement the “catch-all” errorHandler function as follows (for example):
 
-
 ```js
 function errorHandler (err, req, res, next) {
   res.status(500)

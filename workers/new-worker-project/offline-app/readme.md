@@ -596,12 +596,13 @@ self.addEventListener('push', (e) => { /* ... */ });
 
 The data can be retrieved and then shown as a notification to the user immediately. This, for example, can be used to remind the user about something, or let them know about new content being available in the app.
 
+### Push
 
+With Push the sender of the data is a server to which our APP has sibscribed. When a notification is sent from the server, the APP receives the event with the data, and then can deal with it as required - for example, publising a Notification of the ones seen in the previous section.
 
+The data exchange with the publication server is done by the service worker - outside the UI thread. The technology is still at a very early stage — some working examples use the Google Cloud Messaging platform, but are being rewritten to support VAPID (Voluntary Application Identification), which offers an extra layer of security for your app. 
 
-
-
-
+[Seguir leyendo](../node_server/push-payload/readme.md)
 
 ## Como ejecutar la aplicación - en un servidor https
 

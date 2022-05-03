@@ -4,12 +4,28 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
+
         {
             "type": "chrome",
             "request": "launch",
-            "name": "Launch Chrome against localhost",
+            "name": "js13kpwa",
             "url": "https://mbp.local:5000/js13kpwa/index.html",
             "webRoot": "${workspaceFolder}/workers/new-worker-project"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Generica",
+            "url": "https://mbp.local:5000/index.html",
+            "webRoot": "${workspaceFolder}/workers/new-worker-project/node_server/push-payload"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Node",
+            "url": "http://localhost:3000/",
+            "webRoot": "${workspaceFolder}/workers/new-worker-project/node_server/push-payload"
         }
     ]
 }
