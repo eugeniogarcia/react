@@ -599,6 +599,10 @@ The data can be retrieved and then shown as a notification to the user immediate
 
 
 
+
+
+
+
 ## Como ejecutar la aplicación - en un servidor https
 
 vamos a usar `local-web-server` para ejecutar el servidor que aloje la aplicación. Esta utilidad permite tambien exponer un host como __https__ usando un certificado que se incluye con la herramienta, y que certifica `localhost` y `mbp.local`. Incluimos `mbp.local` en nuestro archivo hosts y lanzamos:
